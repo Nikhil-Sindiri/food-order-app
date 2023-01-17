@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import ItemsContext from '../../Store/items-context'
+import Card from '../Card/Card';
 
 import './MenuItem.css';
 export default function MenuItem(props) {
@@ -20,13 +21,13 @@ export default function MenuItem(props) {
   }
 
   return (
-    <div className='item'>
+    <Card className='item'>
         <div className='label'>{props.menuItem.itemName}</div>
         <div className='add'>
           <label>qty</label>
           <input type='number' onChange={qtyHandler}/>
           <button onClick={addCartHandler}>Add to cart</button>
         </div>
-    </div>
+    </Card>
   )
 }
