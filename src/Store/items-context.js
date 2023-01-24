@@ -12,16 +12,19 @@ export const ItemsContextProvider= (props) => {
       itemId:"Penne Pasta",
       itemName:"Penne Pasta",
       itemQty:0,
+      itemPrice: 10
     },
     {
       itemId:"White-Sauce Pasta",
       itemName:"White-Sauce Pasta",
       itemQty:0,
+      itemPrice: 20
     },
     {
       itemId:"Red-Sauce Pasta",
       itemName:"Red-Sauce Pasta",
       itemQty:0,
+      itemPrice: 5
     }, 
   ])
   const [cartItems,setCartItems] =useState([])
