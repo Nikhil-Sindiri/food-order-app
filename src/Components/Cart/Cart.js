@@ -14,6 +14,7 @@ export default function Cart(props) {
         {
           ctx.cartItems.map(
             (cart_item) => {
+              if (cart_item.itemQty > 0)
               return (<CartItem key ={cart_item.itemId} cartItem={cart_item}/>)
             }
           ) 
