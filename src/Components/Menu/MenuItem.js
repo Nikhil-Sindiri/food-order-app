@@ -6,34 +6,32 @@ import './MenuItem.css';
 export default function MenuItem(props) {
   const ctx = useContext(ItemsContext)
 
-  const [newCartItem,setNewCartItem] =useState(props.menuItem);
-  const [itemQty, itemQuantity] = useState(0);
+  const [newCartItem,setNewCartItem] =useState(props.menuItem)
 
   function qtyHandler (e) {
-    if (e.target.value >= 0) {
-      itemQuantity(+e.target.value);
-      setNewCartItem((prev) => ({
-        ...prev, itemQty: +e.target.value
-      }))
-    } else {
-      setNewCartItem(props.menuItem);
-    }
+    setNewCartItem((prev) =>
+      ({...prev, itemQty: +e.target.value})
+    )
   }
 
   function addCartHandler(params) {
-    if(newCartItem.itemQty >= 0){
+    if(newCartItem.itemQty > 0){
       ctx.cartHandler(newCartItem)
     }
   }
 
   return (
     <Card className='item'>
-        <div className='label'>{props.menuItem.itemName}</div>
-        <div className='add'>
-          <label>qty</label>
-          <input type='number' value={itemQty} onChange={qtyHandler}/>
-          <button onClick={addCartHandler}>Add to cart</button>
-        </div>
+      <div className="food-item">
+            <div className="left-content">
+              <label className="name">{props.menuItem.itemName}</label>
+              <label className="price">{props.menuItem.itemPrice}</label>
+            </div>
+            <div className="right-content">
+              <button className="add-to-cart" onClick={addCartHandler}>Add to Cart</button>
+              <input type="number" className="qty" onChange={qtyHandler} min='0' max='10'/>
+            </div>
+      </div>
     </Card>
   )
 }
