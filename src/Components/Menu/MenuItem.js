@@ -6,16 +6,22 @@ import './MenuItem.css';
 export default function MenuItem(props) {
   const ctx = useContext(ItemsContext)
 
-  const [newCartItem,setNewCartItem] =useState(props.menuItem)
+  const [newCartItem,setNewCartItem] =useState(props.menuItem);
+  const [itemQty, itemQuantity] = useState(0);
 
   function qtyHandler (e) {
-    setNewCartItem((prev) =>
-      ({...prev, itemQty: +e.target.value})
-    )
+    if (e.target.value >= 0) {
+      itemQuantity(+e.target.value);
+      setNewCartItem((prev) => ({
+        ...prev, itemQty: +e.target.value
+      }))
+    } else {
+      setNewCartItem(props.menuItem);
+    }
   }
 
   function addCartHandler(params) {
-    if(newCartItem.itemQty > 0){
+    if(newCartItem.itemQty >= 0){
       ctx.cartHandler(newCartItem)
     }
   }
@@ -25,7 +31,7 @@ export default function MenuItem(props) {
         <div className='label'>{props.menuItem.itemName}</div>
         <div className='add'>
           <label>qty</label>
-          <input type='number' onChange={qtyHandler}/>
+          <input type='number' value={itemQty} onChange={qtyHandler}/>
           <button onClick={addCartHandler}>Add to cart</button>
         </div>
     </Card>
