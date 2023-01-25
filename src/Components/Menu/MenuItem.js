@@ -6,16 +6,20 @@ import './MenuItem.css';
 export default function MenuItem(props) {
   const ctx = useContext(ItemsContext)
 
-  const [newCartItem,setNewCartItem] =useState(props.menuItem)
+  const [newCartItem,setNewCartItem] =useState(props.menuItem);
 
   function qtyHandler (e) {
-    setNewCartItem((prev) =>
-      ({...prev, itemQty: +e.target.value})
-    )
+    if (e.target.value >= 0) {
+      setNewCartItem((prev) => ({
+        ...prev, itemQty: +e.target.value
+      }))
+    } else {
+      setNewCartItem(props.menuItem);
+    }
   }
 
   function addCartHandler(params) {
-    if(newCartItem.itemQty > 0){
+    if(newCartItem.itemQty >= 0){
       ctx.cartHandler(newCartItem)
     }
   }
