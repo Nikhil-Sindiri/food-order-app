@@ -7,9 +7,11 @@ import './Cart.css'
 export default function Cart(props) {
     const ctx=useContext(ItemsContext);
     let price = 0;
+
     const PriceDiv = () => {
-      return (<div>{price}</div>)
+      return price > 0 ? (<div>{price}</div>) : null
     }
+
   return (
     <div className="popup-box">
       <div className="box">
@@ -18,9 +20,10 @@ export default function Cart(props) {
         {
           ctx.cartItems.map(
             (cart_item) => {
-              if (cart_item.itemQty > 0)
+              if (cart_item.itemQty > 0) {
               price += cart_item.itemQty * cart_item.itemPrice;
               return (<CartItem key ={cart_item.itemId} cartItem={cart_item}/>)
+              }
             }
           ) 
         }
