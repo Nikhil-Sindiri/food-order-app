@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 const ItemsContext=React.createContext({
     menuItems: [],
     cartItems: [],
-    cartHandler:(item) =>{}
+    cartHandler:(item) =>{},
+    removeItem:(item) =>{}
 })
 
 export const ItemsContextProvider= (props) => {
@@ -31,10 +32,8 @@ export const ItemsContextProvider= (props) => {
 
   function cartHandler(item){
     let exists= false
-    setCartItems(
-      (prev) => {
-        prev.map(
-          (eachItem) => {
+    setCartItems((prev) => {
+        prev.map((eachItem) => {
             if(eachItem.itemId === item.itemId){
               eachItem.itemQty = item.itemQty
               exists=true
@@ -47,6 +46,12 @@ export const ItemsContextProvider= (props) => {
       }
     )
   }
+  function removeItem(item){
+    setCartItems((prev) => {
+        prev.filter((eachItem) => eachItem.itemId !== item.itemId)
+      }
+    )
+  }
 
   return (
       <ItemsContext.Provider 
@@ -54,6 +59,7 @@ export const ItemsContextProvider= (props) => {
             menuItems: menuItems,
             cartItems: cartItems,
             cartHandler: cartHandler,
+            removeItem: removeItem,
           }}
       >
           {props.children}
