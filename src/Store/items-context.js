@@ -1,33 +1,14 @@
 import React, { useState } from 'react'
 
 const ItemsContext=React.createContext({
-    menuItems: [],
     cartItems: [],
     cartHandler:(item) =>{},
     removeItem:(item) =>{}
 })
 
 export const ItemsContextProvider= (props) => {
-  const [menuItems,setItems] = useState([
-    {
-      itemId:"Penne Pasta",
-      itemName:"Penne Pasta",
-      itemQty:0,
-      itemPrice: 10
-    },
-    {
-      itemId:"White-Sauce Pasta",
-      itemName:"White-Sauce Pasta",
-      itemQty:0,
-      itemPrice: 20
-    },
-    {
-      itemId:"Red-Sauce Pasta",
-      itemName:"Red-Sauce Pasta",
-      itemQty:0,
-      itemPrice: 5
-    }, 
-  ])
+  
+
   const [cartItems,setCartItems] =useState([])
 
   function cartHandler(item){
@@ -56,7 +37,6 @@ export const ItemsContextProvider= (props) => {
   return (
       <ItemsContext.Provider 
           value={{
-            menuItems: menuItems,
             cartItems: cartItems,
             cartHandler: cartHandler,
             removeItem: removeItem,

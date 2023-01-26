@@ -1,35 +1,44 @@
-import React, { useContext } from 'react'
+import React, { useState ,useEffect } from 'react'
 import MenuItem from './MenuItem'
-
-import ItemsContext from '../../Store/items-context'
 import Card from '../Card/Card'
 import './Menu.css' 
 export default function Menu() {
-  // const items=[
-  //   {
-  //     itemId:"Penne Pasta",
-  //     itemName:"Penne Pasta",
-  //     itemQty:0,
-  //   },
-  //   {
-  //     itemId:"White-Sauce Pasta",
-  //     itemName:"White-Sauce Pasta",
-  //     itemQty:0,
-  //   },
-  //   {
-  //     itemId:"Red-Sauce Pasta",
-  //     itemName:"Red-Sauce Pasta",
-  //     itemQty:0,
-  //   }, 
-  // ]
-  // const [menuItems,setMenuItems]=useState(items)
+  const [menuItems,setMenuItems] = useState([]);
+  const [isLoading,setIsLoading] = useState(true);
+  const [httpError,setHttpError] =useState(null);
+  useEffect(()=>{
+    const fetchMenu = async () => {
+      const response = await fetch('https://food-order-ap-d3575-default-rtdb.firebaseio.com/menu.json');
+      if(!response.ok) {throw new Error('Something went wrong..')}
+      const responseData = await response.json();
+      const loadedMenu = [];
 
-  const ctx = useContext(ItemsContext) 
+      for(const key in responseData){
+        loadedMenu.push({
+          itemId:key,
+          itemName:responseData[key].itemName,
+          itemPrice:responseData[key].itemPrice,
+        })
+      }
+      setMenuItems(loadedMenu)
+      setIsLoading(false)
+    }
+    
+      fetchMenu().catch((error)=> {
+      setIsLoading(false);
+      setHttpError(error.message);
+    })
+
+    
+  },[]) 
 
   return (
     <Card className='login' >
+      {isLoading && <h3>Loading...</h3>}
+      {httpError && <h3>{httpError}</h3>}
       {
-        ctx.menuItems.map(
+        !isLoading && !httpError &&
+        menuItems.map(
           (menu_item) => {
             return (<MenuItem key ={menu_item.itemId} menuItem={menu_item}/>)
           }
