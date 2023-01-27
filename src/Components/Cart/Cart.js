@@ -1,14 +1,19 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState} from 'react'
 import ItemsContext from '../../Store/items-context'
 import CartItem from './CartItem'
 
 import './Cart.css'
+import Checkout from './Checkout';
 
 export default function Cart(props) {
     const ctx=useContext(ItemsContext);
+    const [isCheckout,setIsCheckout]=useState(false);
     let price = 0;
     const PriceDiv = () => {
       return (<div>{price}</div>)
+    }
+    function orderHandler(params) {
+      setIsCheckout(true)
     }
   return (
     <div className="popup-box">
@@ -25,6 +30,8 @@ export default function Cart(props) {
           ) 
         }
         <PriceDiv />
+        {isCheckout && <Checkout onClose={props.handleClose}/>}
+        {!isCheckout && <button onClick={orderHandler}>Order</button>}
       </div>
     </div>
   )
