@@ -15,6 +15,16 @@ export default function Cart(props) {
     function orderHandler(params) {
       setIsCheckout(true)
     }
+    function submitHandler(userData) {
+      fetch('https://food-order-ap-d3575-default-rtdb.firebaseio.com/orders.json',{
+        method:'POST',
+        body: JSON.stringify({
+          user:userData,
+          orderedItems: ctx.cartItems
+        })
+      });
+    }
+    
   return (
     <div className="popup-box">
       <div className="box">
@@ -30,7 +40,7 @@ export default function Cart(props) {
           ) 
         }
         <PriceDiv />
-        {isCheckout && <Checkout onClose={props.handleClose}/>}
+        {isCheckout && <Checkout onConfirm={submitHandler} onClose={props.handleClose}/>}
         {!isCheckout && <button onClick={orderHandler}>Order</button>}
       </div>
     </div>
